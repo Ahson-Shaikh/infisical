@@ -185,10 +185,13 @@ const MoveLocationLayout = ({
         <PathValue secretPath={sourceSecretPath} />
       </StaticLocationValue>
     </div>
-    <div className="flex items-center gap-3" aria-hidden="true">
-      <span className="h-px flex-1 bg-border" />
+    <div
+      className="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,2fr)] items-center gap-3"
+      aria-hidden="true"
+    >
+      <span className="h-px bg-border" />
       <span className="text-xs font-medium text-muted">Move to</span>
-      <span className="h-px flex-1 bg-border" />
+      <span className="h-px bg-border" />
     </div>
     <div
       className="grid min-w-0 grid-cols-[minmax(7.5rem,0.8fr)_minmax(0,1.2fr)] gap-2"
