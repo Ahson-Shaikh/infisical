@@ -186,7 +186,7 @@ const MoveLocationLayout = ({
       </StaticLocationValue>
     </div>
     <div
-      className="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,2fr)] items-center gap-3"
+      className="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,4fr)] items-center gap-3"
       aria-hidden="true"
     >
       <span className="h-px bg-border" />
