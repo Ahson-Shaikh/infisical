@@ -569,7 +569,13 @@ const DestinationPathField = ({
             );
           }}
           renderValue={(option) => <PathValue secretPath={option.secretPath} />}
-          onInputValueChange={(nextValue) => setInputPath(normalizeFolderPathInput(nextValue))}
+          onInputValueChange={(nextValue) => {
+            const normalizedPath = normalizeFolderPathInput(nextValue);
+            setInputPath(normalizedPath);
+            if (normalizedPath && value && getAbsolutePath(normalizedPath) !== value.secretPath) {
+              onChange(null);
+            }
+          }}
           onClear={() => onChange(null)}
           onValueChange={async (option) => {
             if (option.kind === "create") {
