@@ -9,7 +9,6 @@ import {
   TAgentVaultAccessBundleListItem,
   TAgentVaultActivityConfigResponse,
   TAgentVaultActivityPage,
-  TAgentVaultAwsConnection,
   TAgentVaultMember,
   TAgentVaultProductMemberOf,
   TAgentVaultProxy,
@@ -53,7 +52,6 @@ export const agentVaultKeys = {
   memberList: (orgId: string, params?: TListAgentVaultMembersDTO) =>
     [...agentVaultKeys.members(orgId), params] as const,
   activityConfig: (orgId: string) => [...agentVaultKeys.all(orgId), "activity-config"] as const,
-  awsConnections: (orgId: string) => [...agentVaultKeys.all(orgId), "aws-connections"] as const,
   sessionActivity: (orgId: string, sessionId: string) =>
     [...agentVaultKeys.sessions(orgId), sessionId, "activity"] as const
 };
@@ -207,29 +205,5 @@ export const useGetAgentVaultSessionActivity = (
     refetchInterval: (query) =>
       isActive && (query.state.data?.pages.length ?? 0) <= 1 ? 30_000 : false,
     staleTime: 0
-  });
-};
-
-/**
- * The AWS connections activity storage can be pointed at, which are the organization-level ones.
- *
- * Deliberately not the shared useListAvailableAppConnections hook: that one takes a project id, and the
- * Agent Vault project's would make the endpoint answer 403 before it ever reaches the org-level list.
- * Its roles collapse to admin or member and carry no app-connection permissions, by design. A
- * project-scoped connection is no use here either, since it belongs to some other project and the save
- * would reject it.
- */
-export const useListAgentVaultAwsConnections = (enabled = true) => {
-  const { currentOrg } = useOrganization();
-
-  return useQuery({
-    queryKey: agentVaultKeys.awsConnections(currentOrg.id),
-    queryFn: async () => {
-      const { data } = await apiRequest.get<{ appConnections: TAgentVaultAwsConnection[] }>(
-        "/api/v1/app-connections/aws/available"
-      );
-      return data.appConnections;
-    },
-    enabled
   });
 };
