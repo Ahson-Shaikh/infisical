@@ -9,11 +9,8 @@ import {
   CheckIcon,
   CircleAlertIcon,
   FolderIcon,
-  FolderOpenIcon,
-  FolderPlusIcon,
   InfoIcon,
   LoaderCircleIcon,
-  SlashIcon,
   TriangleAlertIcon
 } from "lucide-react";
 import { twMerge } from "tailwind-merge";
@@ -56,9 +53,7 @@ import {
   ProjectPermissionSecretRotationActions
 } from "@app/context/ProjectPermissionContext/types";
 import { removeTrailingSlash } from "@app/helpers/string";
-import { useDebounce } from "@app/hooks";
 import { useMoveSecrets } from "@app/hooks/api";
-import { useGetProjectSecretsQuickSearch } from "@app/hooks/api/dashboard";
 import {
   dashboardKeys,
   FolderMoveBlockedDestination,
@@ -103,8 +98,6 @@ type ContentProps = Omit<Props, "isOpen" | "onOpenChange"> & {
 type FolderOptionValue = {
   kind: "folder";
   secretPath: string;
-  name: string;
-  depth: number;
 };
 
 type CreateOptionValue = {
@@ -206,58 +199,6 @@ const MoveLocationLayout = ({
   </div>
 );
 
-const PathOption = ({ option, isSelected }: { option: OptionValue; isSelected: boolean }) => {
-  if (option.kind === "create") {
-    return (
-      <span className="flex min-w-0 items-center gap-2">
-        <FolderPlusIcon className="size-4 shrink-0 text-folder" aria-hidden="true" />
-        <span className="min-w-0 truncate font-mono text-xs">{option.secretPath}</span>
-      </span>
-    );
-  }
-
-  const Icon = isSelected ? FolderOpenIcon : FolderIcon;
-  const segments = getPathSegments(option.secretPath);
-
-  return (
-    <span className="flex min-w-0 items-center">
-      {option.secretPath === "/" ? (
-        <>
-          <FolderIcon className="size-4 shrink-0 text-folder" aria-hidden="true" />
-          <span className="ml-2 min-w-0">
-            <span className="block truncate font-mono text-xs">/</span>
-            <span className="block text-xs text-muted">Project root</span>
-          </span>
-        </>
-      ) : (
-        <>
-          <span className="flex shrink-0 self-stretch" aria-hidden="true">
-            {Array.from({ length: option.depth }, (_, index) => (
-              <span
-                key={`${option.secretPath}-guide-${index + 1}`}
-                className="w-4 border-l border-border"
-              />
-            ))}
-          </span>
-          <Icon className="size-4 shrink-0 text-folder" aria-hidden="true" />
-          <span className="ml-2 flex min-w-0 items-center gap-1 font-mono text-xs">
-            {segments.map((segment, index) => (
-              <span key={segments.slice(0, index + 1).join("/")} className="contents">
-                {index > 0 && (
-                  <SlashIcon className="size-3 shrink-0 -rotate-12 text-muted" aria-hidden="true" />
-                )}
-                <span className={twMerge("truncate", index < segments.length - 1 && "text-muted")}>
-                  {segment}
-                </span>
-              </span>
-            ))}
-          </span>
-        </>
-      )}
-    </span>
-  );
-};
-
 // mirrors the backend cyclic-move rule: a folder cannot be moved into itself or one of its own subfolders.
 const isPathInsideFolder = (destinationPath: string, folderPath: string) =>
   destinationPath === folderPath || destinationPath.startsWith(`${folderPath}/`);
@@ -266,7 +207,6 @@ const DestinationPathField = ({
   pathEnvironments,
   creationEnvironments,
   projectId,
-  projectName,
   inputId,
   value,
   onChange,
@@ -278,7 +218,6 @@ const DestinationPathField = ({
   pathEnvironments: ProjectEnv[];
   creationEnvironments: ProjectEnv[];
   projectId: string;
-  projectName: string;
   inputId: string;
   value: OptionValue | null;
   onChange: (newValue: OptionValue | null) => void;
@@ -292,7 +231,6 @@ const DestinationPathField = ({
   const queryClient = useQueryClient();
   const createRequestRef = useRef(false);
   const [inputPath, setInputPath] = useState("");
-  const searchPath = getAbsolutePath(inputPath);
   const candidatePath = getAbsolutePath(inputPath);
   const candidateSegments = getPathSegments(inputPath);
   const candidateParentPaths = candidateSegments.map((_, index) =>
@@ -300,65 +238,53 @@ const DestinationPathField = ({
   );
   const isCandidateValid = isValidFolderPath(inputPath);
   const isRootPath = inputPath.trim() === "";
-  const [debouncedSearchPath] = useDebounce(searchPath);
-
-  const { data, isPending, isLoading, isFetching } = useGetProjectSecretsQuickSearch({
-    secretPath: "/",
-    environments: pathEnvironments.map((environment) => environment.slug),
-    projectId,
-    search: debouncedSearchPath,
-    tags: {}
-  });
   const {
     data: environmentFolders,
     isPending: isFolderTreePending,
     isFetching: isFolderTreeFetching,
     isError: isFolderTreeError
-  } = useListProjectEnvironmentsFolders(projectId, {
-    enabled: isCandidateValid && creationEnvironments.length > 0,
-    staleTime: 0
-  });
+  } = useListProjectEnvironmentsFolders(projectId, { staleTime: 0 });
 
-  const { folders = {} } = data ?? {};
-  const isCheckingFolderTree =
-    isCandidateValid &&
-    creationEnvironments.length > 0 &&
-    (isFolderTreePending || isFolderTreeFetching);
-  const isSearching =
-    isPending ||
-    isLoading ||
-    isFetching ||
-    searchPath !== debouncedSearchPath ||
-    isCheckingFolderTree;
-  const existingFolderPaths = new Map(
-    creationEnvironments.map((environment) => [
-      environment.slug,
-      new Set(
-        (environmentFolders?.[environment.slug]?.folders ?? []).map(({ path }) =>
-          removeTrailingSlash(path)
-        )
-      )
-    ])
+  const isCheckingFolderTree = isFolderTreePending || isFolderTreeFetching;
+  const folderPathsByEnvironment = useMemo(
+    () =>
+      new Map(
+        pathEnvironments.map((environment) => [
+          environment.slug,
+          new Set(
+            (environmentFolders?.[environment.slug]?.folders ?? []).map(({ path }) =>
+              removeTrailingSlash(path)
+            )
+          )
+        ])
+      ),
+    [environmentFolders, pathEnvironments]
   );
-  const folderOptions: FolderOptionValue[] = Object.keys(folders)
-    .filter(
-      (secretPath) =>
-        secretPath !== "/" &&
-        (creationEnvironments.length === 0 ||
-          creationEnvironments.every((environment) =>
-            existingFolderPaths.get(environment.slug)?.has(removeTrailingSlash(secretPath))
-          ))
-    )
-    .sort((left, right) => left.localeCompare(right))
-    .map((secretPath) => {
-      const segments = getPathSegments(secretPath);
-      return {
-        kind: "folder",
-        secretPath,
-        name: segments.at(-1) ?? secretPath,
-        depth: segments.length
-      };
+  const allFolderPaths = useMemo(() => {
+    const folderPaths = new Set<string>();
+    folderPathsByEnvironment.forEach((environmentPaths) => {
+      environmentPaths.forEach((folderPath) => folderPaths.add(folderPath));
     });
+    return Array.from(folderPaths);
+  }, [folderPathsByEnvironment]);
+  const normalizedInputPath = inputPath.toLocaleLowerCase();
+  const folderOptions = useMemo<FolderOptionValue[]>(
+    () =>
+      allFolderPaths
+        .filter(
+          (secretPath) =>
+            secretPath !== "/" &&
+            (!normalizedInputPath ||
+              secretPath.toLocaleLowerCase().includes(normalizedInputPath)) &&
+            (creationEnvironments.length === 0 ||
+              creationEnvironments.every((environment) =>
+                folderPathsByEnvironment.get(environment.slug)?.has(secretPath)
+              ))
+        )
+        .sort((left, right) => left.localeCompare(right))
+        .map((secretPath) => ({ kind: "folder", secretPath })),
+    [allFolderPaths, creationEnvironments, folderPathsByEnvironment, normalizedInputPath]
+  );
   const missingCreationTargets = isRootPath
     ? []
     : creationEnvironments
@@ -366,7 +292,7 @@ const DestinationPathField = ({
           environment,
           missingParentPaths: candidateParentPaths.filter((_, index) => {
             const folderPath = `/${candidateSegments.slice(0, index + 1).join("/")}`;
-            return !existingFolderPaths.get(environment.slug)?.has(folderPath);
+            return !folderPathsByEnvironment.get(environment.slug)?.has(folderPath);
           })
         }))
         .filter(({ missingParentPaths }) => missingParentPaths.length > 0);
@@ -392,7 +318,7 @@ const DestinationPathField = ({
     isCandidateValid &&
     !matchesExistingFolder &&
     !isCandidateMoveBlocked &&
-    !isSearching &&
+    !isCheckingFolderTree &&
     !isFolderTreeError &&
     !isCreating &&
     missingCreationTargets.length > 0 &&
@@ -407,7 +333,7 @@ const DestinationPathField = ({
     disabledReason = "Type a new folder name";
   } else if (isFolderTreeError) {
     disabledReason = "Could not check existing folders";
-  } else if (isSearching) {
+  } else if (isCheckingFolderTree) {
     disabledReason = "Checking whether this folder already exists";
   } else if (isCandidateMoveBlocked) {
     disabledReason = "Folders can't be moved into themselves or their subfolders";
@@ -423,9 +349,7 @@ const DestinationPathField = ({
 
   const rootOption: FolderOptionValue = {
     kind: "folder",
-    secretPath: "/",
-    name: "/",
-    depth: 0
+    secretPath: "/"
   };
   const createOption: CreateOptionValue | null =
     !isRootPath && !matchesExistingFolder
@@ -496,12 +420,9 @@ const DestinationPathField = ({
         })
       ]);
       setInputPath("");
-      const segments = getPathSegments(absolutePath);
       onChange({
         kind: "folder",
-        secretPath: absolutePath,
-        name: segments.at(-1) ?? absolutePath,
-        depth: segments.length
+        secretPath: absolutePath
       });
     } finally {
       createRequestRef.current = false;
@@ -526,7 +447,7 @@ const DestinationPathField = ({
             options={options}
             value={value}
             isDisabled={isCreating}
-            isLoading={isCreating}
+            isLoading={isCreating || isFolderTreePending}
             shouldFilter={false}
             includeMissingSelectedOptions={!inputPath}
             placeholder="Select a destination folder..."
@@ -537,20 +458,12 @@ const DestinationPathField = ({
             getOptionValue={(option) =>
               option.kind === "create" ? `create:${option.secretPath}` : option.secretPath
             }
-            getOptionLabel={(option) => {
-              if (option.kind === "create") return `Create ${option.secretPath}`;
-              return option.secretPath;
-            }}
-            getOptionKeywords={(option) =>
-              option.kind === "create"
-                ? [option.secretPath]
-                : [option.secretPath, option.name, projectName]
-            }
+            getOptionLabel={(option) => option.secretPath}
             isOptionDisabled={(option) =>
               option.kind === "create" ? !canCreate : isCandidateBlocked(option.secretPath)
             }
-            renderOption={(option, { isSelected }) => (
-              <PathOption option={option} isSelected={isSelected} />
+            renderOption={(option) => (
+              <span className="min-w-0 truncate font-mono text-xs">{option.secretPath}</span>
             )}
             renderOptionIndicator={(option, { isSelected }) => {
               if (option.kind === "folder") {
@@ -559,11 +472,10 @@ const DestinationPathField = ({
 
               return (
                 <span
-                  className="flex max-w-56 items-center gap-1.5 text-xs text-muted"
+                  className="max-w-56 truncate text-xs text-muted"
                   title={option.createDisabledReason}
                 >
-                  <FolderPlusIcon className="size-3.5 shrink-0" aria-hidden="true" />
-                  <span className="truncate">{option.createDisabledReason ?? "New Folder"}</span>
+                  {option.createDisabledReason ?? "New Folder"}
                 </span>
               );
             }}
@@ -901,7 +813,6 @@ const SingleEnvContent = ({
   environments,
   visibleEnvs,
   projectId,
-  projectName,
   projectSlug,
   sourceSecretPath,
   foldersWithRbacPolicies
@@ -914,9 +825,7 @@ const SingleEnvContent = ({
   const moveFolder = useMoveFolder();
   const [selectedPath, setSelectedPath] = useState<OptionValue | null>({
     kind: "folder",
-    secretPath: "/",
-    name: projectName,
-    depth: 0
+    secretPath: "/"
   });
   const [isCreatingFolder, setIsCreatingFolder] = useState(false);
 
@@ -938,11 +847,9 @@ const SingleEnvContent = ({
   useEffect(() => {
     setSelectedPath({
       kind: "folder",
-      secretPath: "/",
-      name: projectName,
-      depth: 0
+      secretPath: "/"
     });
-  }, [selectedEnvironment, projectName]);
+  }, [selectedEnvironment]);
 
   const destinationSelected =
     Boolean(selectedPath?.secretPath) &&
@@ -1181,7 +1088,6 @@ const SingleEnvContent = ({
             }
             creationEnvironments={environments.filter(({ slug }) => slug === selectedEnvironment)}
             projectId={projectId}
-            projectName={projectName}
             value={selectedPath}
             onChange={setSelectedPath}
             isCreating={isCreatingFolder}
@@ -1254,7 +1160,6 @@ const MultiEnvContent = ({
   folders,
   environments,
   projectId,
-  projectName,
   projectSlug,
   sourceSecretPath,
   foldersWithRbacPolicies
@@ -1268,9 +1173,7 @@ const MultiEnvContent = ({
   const [moveResults, setMoveResults] = useState<MoveResults | null>(null);
   const [selectedPath, setSelectedPath] = useState<OptionValue | null>({
     kind: "folder",
-    secretPath: "/",
-    name: projectName,
-    depth: 0
+    secretPath: "/"
   });
   const [isCreatingFolder, setIsCreatingFolder] = useState(false);
 
@@ -1623,7 +1526,6 @@ const MultiEnvContent = ({
               pathEnvironments={environments}
               creationEnvironments={folderCreationEnvironments}
               projectId={projectId}
-              projectName={projectName}
               value={selectedPath}
               onChange={setSelectedPath}
               isCreating={isCreatingFolder}
