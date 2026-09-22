@@ -37,6 +37,8 @@ import {
   FieldContent,
   FieldDescription,
   FieldLabel,
+  InputGroup,
+  InputGroupAddon,
   Label,
   Select,
   SelectContent,
@@ -513,70 +515,76 @@ const DestinationPathField = ({
         Destination folder
       </FieldLabel>
       <FieldContent>
-        <Combobox
-          id={inputId}
-          modal
-          options={options}
-          value={value}
-          isDisabled={isCreating}
-          isLoading={isCreating}
-          shouldFilter={false}
-          includeMissingSelectedOptions={!inputPath}
-          placeholder="Select a destination folder..."
-          searchPlaceholder="Search or create a folder..."
-          searchAriaLabel="Search destination folders"
-          emptyMessage="No folders found. Type a path to create one."
-          loadingMessage={isCreating ? "Creating folder..." : "Loading folders..."}
-          getOptionValue={(option) =>
-            option.kind === "create" ? `create:${option.secretPath}` : option.secretPath
-          }
-          getOptionLabel={(option) => {
-            if (option.kind === "create") return `Create ${option.secretPath}`;
-            return option.secretPath;
-          }}
-          getOptionKeywords={(option) =>
-            option.kind === "create"
-              ? [option.secretPath]
-              : [option.secretPath, option.name, projectName]
-          }
-          isOptionDisabled={(option) =>
-            option.kind === "create" ? !canCreate : isCandidateBlocked(option.secretPath)
-          }
-          renderOption={(option, { isSelected }) => (
-            <PathOption option={option} isSelected={isSelected} />
-          )}
-          renderOptionIndicator={(option, { isSelected }) => {
-            if (option.kind === "folder") {
-              return isSelected ? <CheckIcon className="size-4" /> : null;
+        <InputGroup data-disabled={isCreating || undefined}>
+          <InputGroupAddon align="inline-start" className="pr-0 [&>svg]:text-folder">
+            <FolderIcon aria-hidden="true" />
+          </InputGroupAddon>
+          <Combobox
+            id={inputId}
+            data-slot="input-group-control"
+            className="rounded-none border-0 bg-transparent pl-2 shadow-none hover:border-0 focus:border-0 focus:ring-0"
+            modal
+            options={options}
+            value={value}
+            isDisabled={isCreating}
+            isLoading={isCreating}
+            shouldFilter={false}
+            includeMissingSelectedOptions={!inputPath}
+            placeholder="Select a destination folder..."
+            searchPlaceholder="Search or create a folder..."
+            searchAriaLabel="Search destination folders"
+            emptyMessage="No folders found. Type a path to create one."
+            loadingMessage={isCreating ? "Creating folder..." : "Loading folders..."}
+            getOptionValue={(option) =>
+              option.kind === "create" ? `create:${option.secretPath}` : option.secretPath
             }
+            getOptionLabel={(option) => {
+              if (option.kind === "create") return `Create ${option.secretPath}`;
+              return option.secretPath;
+            }}
+            getOptionKeywords={(option) =>
+              option.kind === "create"
+                ? [option.secretPath]
+                : [option.secretPath, option.name, projectName]
+            }
+            isOptionDisabled={(option) =>
+              option.kind === "create" ? !canCreate : isCandidateBlocked(option.secretPath)
+            }
+            renderOption={(option, { isSelected }) => (
+              <PathOption option={option} isSelected={isSelected} />
+            )}
+            renderOptionIndicator={(option, { isSelected }) => {
+              if (option.kind === "folder") {
+                return isSelected ? <CheckIcon className="size-4" /> : null;
+              }
 
-            return (
-              <span
-                className="flex max-w-56 items-center gap-1.5 text-xs text-muted"
-                title={option.createDisabledReason}
-              >
-                <FolderPlusIcon className="size-3.5 shrink-0" aria-hidden="true" />
-                <span className="truncate">{option.createDisabledReason ?? "New Folder"}</span>
-              </span>
-            );
-          }}
-          renderValue={(option) => <PathValue secretPath={option.secretPath} />}
-          onInputValueChange={(nextValue) => {
-            const normalizedPath = normalizeFolderPathInput(nextValue);
-            setInputPath(normalizedPath);
-            if (normalizedPath && value && getAbsolutePath(normalizedPath) !== value.secretPath) {
-              onChange(null);
-            }
-          }}
-          onClear={() => onChange(null)}
-          onValueChange={async (option) => {
-            if (option.kind === "create") {
-              await handleCreatePath(option.secretPath);
-              return;
-            }
-            onChange(option);
-          }}
-        />
+              return (
+                <span
+                  className="flex max-w-56 items-center gap-1.5 text-xs text-muted"
+                  title={option.createDisabledReason}
+                >
+                  <FolderPlusIcon className="size-3.5 shrink-0" aria-hidden="true" />
+                  <span className="truncate">{option.createDisabledReason ?? "New Folder"}</span>
+                </span>
+              );
+            }}
+            onInputValueChange={(nextValue) => {
+              const normalizedPath = normalizeFolderPathInput(nextValue);
+              setInputPath(normalizedPath);
+              if (normalizedPath && value && getAbsolutePath(normalizedPath) !== value.secretPath) {
+                onChange(null);
+              }
+            }}
+            onClear={() => onChange(null)}
+            onValueChange={async (option) => {
+              if (option.kind === "create") {
+                await handleCreatePath(option.secretPath);
+                return;
+              }
+              onChange(option);
+            }}
+          />
+        </InputGroup>
       </FieldContent>
     </Field>
   );
