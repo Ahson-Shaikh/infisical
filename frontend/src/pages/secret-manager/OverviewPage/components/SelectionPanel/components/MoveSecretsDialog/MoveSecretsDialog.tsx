@@ -204,15 +204,7 @@ const MoveLocationLayout = ({
   </div>
 );
 
-const PathOption = ({
-  option,
-  projectName,
-  isSelected
-}: {
-  option: OptionValue;
-  projectName: string;
-  isSelected: boolean;
-}) => {
+const PathOption = ({ option, isSelected }: { option: OptionValue; isSelected: boolean }) => {
   if (option.kind === "create") {
     return (
       <span className="flex min-w-0 items-center gap-2">
@@ -231,7 +223,7 @@ const PathOption = ({
         <>
           <FolderIcon className="size-4 shrink-0 text-folder" aria-hidden="true" />
           <span className="ml-2 min-w-0">
-            <span className="block truncate">{projectName}</span>
+            <span className="block truncate font-mono text-xs">/</span>
             <span className="block text-xs text-muted">Project root</span>
           </span>
         </>
@@ -430,7 +422,7 @@ const DestinationPathField = ({
   const rootOption: FolderOptionValue = {
     kind: "folder",
     secretPath: "/",
-    name: projectName,
+    name: "/",
     depth: 0
   };
   const createOption: CreateOptionValue | null =
@@ -540,7 +532,7 @@ const DestinationPathField = ({
           }
           getOptionLabel={(option) => {
             if (option.kind === "create") return `Create ${option.secretPath}`;
-            return option.secretPath === "/" ? projectName : option.secretPath;
+            return option.secretPath;
           }}
           getOptionKeywords={(option) =>
             option.kind === "create"
@@ -551,7 +543,7 @@ const DestinationPathField = ({
             option.kind === "create" ? !canCreate : isCandidateBlocked(option.secretPath)
           }
           renderOption={(option, { isSelected }) => (
-            <PathOption option={option} projectName={projectName} isSelected={isSelected} />
+            <PathOption option={option} isSelected={isSelected} />
           )}
           renderOptionIndicator={(option, { isSelected }) => {
             if (option.kind === "folder") {
