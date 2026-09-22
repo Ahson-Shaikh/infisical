@@ -521,8 +521,7 @@ const DestinationPathField = ({
           </InputGroupAddon>
           <Combobox
             id={inputId}
-            data-slot="input-group-control"
-            className="rounded-none border-0 bg-transparent pl-2 shadow-none hover:border-0 focus:border-0 focus:ring-0"
+            variant="input-group"
             modal
             options={options}
             value={value}

@@ -1,5 +1,6 @@
 import { createContext, type ReactNode, useContext, useEffect, useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { FolderIcon } from "lucide-react";
 import { expect, userEvent, within } from "storybook/test";
 
 import { useDebounce } from "@app/hooks";
@@ -14,6 +15,7 @@ import {
   DialogTrigger
 } from "../Dialog";
 import { Field, FieldError, FieldLabel } from "../Field";
+import { InputGroup, InputGroupAddon } from "../InputGroup";
 import { Combobox, type ComboboxProps } from "./Combobox";
 
 const ENVIRONMENTS = [
@@ -233,6 +235,42 @@ const ServerSearchRender = () => {
  */
 export const ServerSearch: Story = {
   render: () => <ServerSearchRender />
+};
+
+const InputGroupRender = () => {
+  const [value, setValue] = useState<(typeof ENVIRONMENTS)[number] | null>(ENVIRONMENTS[0]);
+
+  return (
+    <Field>
+      <FieldLabel htmlFor="combobox-input-group">Environment</FieldLabel>
+      <InputGroup>
+        <InputGroupAddon align="inline-start">
+          <FolderIcon />
+        </InputGroupAddon>
+        <StoryCombobox
+          id="combobox-input-group"
+          variant="input-group"
+          options={ENVIRONMENTS}
+          value={value}
+          onValueChange={setValue}
+          onClear={() => setValue(null)}
+          getOptionValue={(option) => option.id}
+          getOptionLabel={(option) => option.name}
+          placeholder="Select environment..."
+          searchPlaceholder="Search environments..."
+          searchAriaLabel="Search environments"
+        />
+      </InputGroup>
+    </Field>
+  );
+};
+
+/**
+ * `variant="input-group"` delegates border, focus, error, and disabled chrome to an enclosing
+ * `InputGroup`. Use it when a single-select Combobox needs a fixed prefix or suffix addon.
+ */
+export const InputGroupComposition: Story = {
+  render: () => <InputGroupRender />
 };
 
 const RichOptionsRender = () => {
