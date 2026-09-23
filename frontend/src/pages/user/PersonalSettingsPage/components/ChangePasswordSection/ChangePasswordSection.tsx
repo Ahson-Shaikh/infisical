@@ -125,7 +125,7 @@ export const ChangePasswordSection = () => {
     <form onSubmit={handleSubmit(onFormSubmit)}>
       <Card className="gap-0 overflow-hidden p-0">
         <CardHeader className="p-6">
-          <CardTitle className="font-sans">Change Password</CardTitle>
+          <CardTitle className="font-alliance">Change Password</CardTitle>
           <CardDescription>
             Changing your password signs this session out after the update succeeds.
           </CardDescription>

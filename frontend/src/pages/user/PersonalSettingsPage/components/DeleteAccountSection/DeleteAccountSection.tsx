@@ -57,7 +57,7 @@ export const DeleteAccountSection = () => {
     <>
       <Card className="gap-0 overflow-hidden border-danger/25 p-0">
         <CardHeader className="p-6">
-          <CardTitle className="font-sans">Delete Account</CardTitle>
+          <CardTitle className="font-alliance">Delete Account</CardTitle>
           <CardDescription>
             Permanently delete your account and revoke its access to Infisical. This cannot be
             undone.

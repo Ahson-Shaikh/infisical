@@ -123,7 +123,10 @@ export const AccessRestrictedDialog = ({
               {badgeLabel}
             </Badge>
             {/* Alliance ships only weight 400, so font-normal rather than a faux-bolded semibold. */}
-            <h2 id={titleId} className="font-sans text-3xl leading-tight font-normal text-balance">
+            <h2
+              id={titleId}
+              className="font-alliance text-3xl leading-tight font-normal text-balance"
+            >
               {title}
               {subtitle && (
                 <>

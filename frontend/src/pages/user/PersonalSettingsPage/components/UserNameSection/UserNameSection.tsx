@@ -64,7 +64,7 @@ export const UserNameSection = (): JSX.Element => {
     <form onSubmit={handleSubmit(onFormSubmit)}>
       <Card className="gap-0 overflow-hidden p-0">
         <CardHeader className="p-6">
-          <CardTitle className="font-sans">Profile</CardTitle>
+          <CardTitle className="font-alliance">Profile</CardTitle>
           <CardDescription>Update the name shown across Infisical.</CardDescription>
         </CardHeader>
         <CardContent className="max-w-md px-6 pb-6">

@@ -25,7 +25,7 @@ export const WelcomePage = ({ organizationId }: Props) => {
             <KeyRound className="size-5" />
             <span aria-hidden="true" className="absolute -top-1.5 -right-1.5 size-2 bg-project" />
           </div>
-          <CardTitle className="font-sans text-3xl leading-tight font-normal">
+          <CardTitle className="font-alliance text-3xl leading-tight font-normal">
             Your instance is ready.
           </CardTitle>
           <CardDescription className="mt-2 max-w-lg font-sans text-base leading-relaxed">

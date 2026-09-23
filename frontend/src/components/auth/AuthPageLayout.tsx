@@ -94,7 +94,7 @@ export const AuthPageLayout = ({
               <p className="mb-4 font-mono text-xs tracking-[0.02em] text-project uppercase">
                 {aside?.eyebrow ?? "Trusted by 400,000+ developers"}
               </p>
-              <h2 className="font-sans text-3xl leading-tight font-normal text-foreground xl:text-4xl">
+              <h2 className="font-alliance text-3xl leading-tight font-normal text-foreground xl:text-4xl">
                 <span className="block">
                   Security <span className="text-highlight">infrastructure</span>
                 </span>

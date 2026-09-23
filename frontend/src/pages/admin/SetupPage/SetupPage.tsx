@@ -350,7 +350,7 @@ export const SetupPage = () => {
             name="signUpMode"
             render={({ field }) => (
               <Field>
-                <h3 className="font-sans text-base font-medium text-foreground">
+                <h3 className="font-alliance text-base font-normal text-foreground">
                   Who can create accounts?
                 </h3>
                 <RadioGroup
@@ -391,7 +391,7 @@ export const SetupPage = () => {
             render={({ field }) => (
               <Field>
                 <div className="flex items-center gap-3">
-                  <h3 className="shrink-0 font-sans text-base font-medium text-foreground">
+                  <h3 className="shrink-0 font-alliance text-base font-normal text-foreground">
                     Allowed authentication methods
                   </h3>
                   <Separator className="flex-1" />
@@ -592,7 +592,7 @@ export const SetupPage = () => {
       <AuthPagePanel>
         <form id={setupFormId} onSubmit={onSubmit}>
           <CardHeader className="mb-8 gap-2">
-            <CardTitle className="font-sans text-3xl leading-tight font-normal">
+            <CardTitle className="font-alliance text-3xl leading-tight font-normal">
               {stepContent[activeStep].title}
             </CardTitle>
             <CardDescription className="font-sans text-base leading-relaxed">

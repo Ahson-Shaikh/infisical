@@ -36,7 +36,7 @@ export const VerificationCodeHeader = ({
       </>
     ) : (
       <>
-        <CardTitle className="font-sans text-2xl font-normal">{title}</CardTitle>
+        <CardTitle className="font-alliance text-2xl font-normal">{title}</CardTitle>
         {description && <CardDescription className="text-base">{description}</CardDescription>}
       </>
     )}

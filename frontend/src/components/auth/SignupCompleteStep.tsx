@@ -97,7 +97,7 @@ export default function SignupCompleteStep({
       <AuthPagePanel className="gap-6">
         <CardHeader className="gap-2">
           <CardDescription className="ml-0.5 text-base">Your organization is ready</CardDescription>
-          <CardTitle className="ml-0.5 font-sans text-2xl font-normal text-foreground">
+          <CardTitle className="ml-0.5 font-alliance text-2xl font-normal text-foreground">
             Choose where to go next.
           </CardTitle>
         </CardHeader>

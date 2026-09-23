@@ -51,6 +51,17 @@
     color: var(--color-foreground);
   }
 
+  .font-alliance,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-alliance);
+    font-synthesis: none;
+  }
+
   input {
     color-scheme: inherit;
   }
@@ -93,9 +104,10 @@
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;
   --text-base: 1rem;
-  --font-sans:
+  --font-alliance:
     "Alliance No. 2", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
     sans-serif;
+  --font-sans: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-mono: "JetBrains Mono", monospace;
   --text-2xs: 0.7rem;
   --text-2xs--line-height: 1rem;

@@ -80,7 +80,7 @@ CASL-based (`@casl/ability`). Contexts: `OrgPermissionContext` and `ProjectPermi
 
 ### Styling
 
-Tailwind CSS v4 with PostCSS. Dark theme configured via CSS custom properties in `src/index.css` (`@theme` directive). Custom breakpoint `dashboard: 1100px`. Typography roles: Alliance No. 2 is the default product UI face (`font-sans`); JetBrains Mono is the default functional mono (`font-mono`) for code, values, identifiers, and technical microcopy. See the root `DESIGN.md` for typography roles. Colors use semantic roles from `src/index.css`, including surfaces, content, structure, status, scope, and product/resource accents.
+Tailwind CSS v4 with PostCSS. Dark theme configured via CSS custom properties in `src/index.css` (`@theme` directive). Custom breakpoint `dashboard: 1100px`. Typography roles: IBM Plex Sans is the default product UI face (`font-sans`); Alliance No. 2 Regular is for headings (`font-alliance`); JetBrains Mono is the functional mono (`font-mono`) for code, values, identifiers, and technical microcopy. See the root `DESIGN.md` for typography roles. Colors use semantic roles from `src/index.css`, including surfaces, content, structure, status, scope, and product/resource accents.
 
 ### Layouts
 

@@ -34,8 +34,8 @@ values are masked by default; revealing one is an intentional act.
 - Semantic-first color (danger / success / warning / info / neutral)
 - Scope-aware (org / sub-org / project / admin)
 - Border-defined depth; overlapping labels retain the shared Badge styling
-- Alliance No. 2 for product UI and display typography; JetBrains Mono for
-  functional and decorative monospace roles
+- IBM Plex Sans for product UI, Alliance No. 2 for headings, and JetBrains
+  Mono for monospaced content
 - Secrets masked by default; reveal is an act
 
 ## 2. Color Palette & Roles
@@ -107,20 +107,24 @@ never as solid fills. The two canonical recipes:
 
 ## 3. Typography
 
-Typography uses two intentional families:
+Typography uses three intentional families:
 
-- **Alliance No. 2** (`font-sans`, `--font-sans`) is the default product and
-  display face. Body copy, forms, tables, buttons, labels, navigation, and
-  headings inherit it.
+- **IBM Plex Sans** (`font-sans`, `--font-sans`) is the default product UI face.
+  Body copy, forms, tables, buttons, labels, and navigation inherit it. Real
+  400, 500, 600, and 700 weights are bundled for UI hierarchy.
+- **Alliance No. 2** (`font-alliance`, `--font-alliance`) is the heading face.
+  Semantic headings and shared page, card, dialog, alert dialog, and sheet
+  titles use its bundled Regular weight. Do not use it for arbitrary bold body
+  text or request synthetic heavier weights.
 - **JetBrains Mono** (`font-mono`, `--font-mono`) is the functional and
   decorative mono. Use it for code, secret values, identifiers, timestamps,
   logs, and short technical microcopy.
 
 | Role                    | Class                                                                     | Notes                                                              |
 | ----------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------ |
-| Page title (h1)         | `text-2xl font-medium underline underline-offset-4 decoration-<scope>/90` | In `PageHeader`; scope icon (size 26) sits inline before the title |
+| Page title (h1)         | `font-alliance text-2xl font-normal underline underline-offset-4 decoration-<scope>/90` | In `PageHeader`; scope icon (size 26) sits inline before the title |
 | Page description        | `text-label`                                                              | Sits under the title, separated by the header's `gap-2`            |
-| Card title              | `text-lg font-semibold leading-none`                                      | `flex gap-1.5` so badges can sit inline                            |
+| Card title              | `font-alliance text-lg font-normal leading-none`                           | `flex gap-1.5` so badges can sit inline                            |
 | Card description        | `text-sm text-accent`                                                     |                                                                    |
 | Body                    | `text-sm`                                                                 | Default for table cells, form values, dialog content               |
 | Label / meta            | `text-xs text-accent`                                                     | Field labels, table column captions, metadata                      |
@@ -310,8 +314,9 @@ legible across the control edge.
   The documented brand-forward `text-highlight` treatment and deliberately
   branded `ButtonBadge` flags are narrow exceptions for authentication and
   onboarding surfaces.
-- **DON'T** mix font families arbitrarily. Use Alliance for product and display
-  text and JetBrains Mono (`font-mono`) for monospaced content.
+- **DON'T** mix font families arbitrarily. Use IBM Plex Sans for UI and body
+  text, Alliance Regular for headings, and JetBrains Mono (`font-mono`) for
+  monospaced content.
 - **DON'T** animate for decoration. Motion should clarify state change only.
 
 ## 8. Voice & Content Tone

@@ -51,7 +51,7 @@ export const EmailDuplicationConfirmation = ({ onRemoveDuplicateLater }: Props) 
         <AuthPagePanel>
           <form className="mx-auto flex w-full flex-col">
             <div className="mb-6">
-              <h1 className="mb-2 font-sans text-2xl font-normal text-foreground">
+              <h1 className="mb-2 font-alliance text-2xl font-normal text-foreground">
                 Multiple Accounts Detected
               </h1>
               <p className="mb-4 text-sm text-label">
