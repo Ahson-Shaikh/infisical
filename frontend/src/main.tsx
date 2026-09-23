@@ -20,7 +20,9 @@ import { NotFoundPage } from "./pages/public/NotFoundPage/NotFoundPage";
 import { routeTree } from "./routeTree.gen";
 
 import "@fontsource/jetbrains-mono/400.css";
+import "@fontsource/jetbrains-mono/400-italic.css";
 import "@fontsource/jetbrains-mono/500.css";
+import "@fontsource/jetbrains-mono/600.css";
 import "@xyflow/react/dist/style.css";
 import "nprogress/nprogress.css";
 import "@fortawesome/fontawesome-svg-core/styles.css";
