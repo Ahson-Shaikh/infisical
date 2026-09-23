@@ -172,7 +172,7 @@ export default function UserInfoStep({
           <CardTitle
             role="heading"
             aria-level={1}
-            className="ml-0.5 min-w-0 flex-nowrap font-alliance text-2xl font-normal break-words"
+            className="ml-0.5 min-w-0 flex-nowrap font-sans text-2xl font-normal break-words"
           >
             {isInvite ? (
               <>
@@ -193,7 +193,7 @@ export default function UserInfoStep({
             )}
           </CardTitle>
           {isInvite ? (
-            <CardDescription className="ml-0.5 font-alliance text-base break-words text-accent">
+            <CardDescription className="ml-0.5 font-sans text-base break-words text-accent">
               Set up your Infisical account
             </CardDescription>
           ) : null}

@@ -71,7 +71,7 @@ export const AccountRecoveryEmailPage = () => {
           <form onSubmit={onSubmit} className="w-full">
             <AuthPagePanel>
               <CardHeader className="mb-6 gap-2">
-                <CardTitle className="font-alliance text-2xl font-normal">
+                <CardTitle className="font-sans text-2xl font-normal">
                   Recover your account
                 </CardTitle>
               </CardHeader>
@@ -129,7 +129,7 @@ export const AccountRecoveryEmailPage = () => {
               >
                 <MailCheck className="size-5" strokeWidth={1.75} />
               </div>
-              <CardTitle className="justify-center text-center font-alliance text-2xl font-normal">
+              <CardTitle className="justify-center text-center font-sans text-2xl font-normal">
                 Check your inbox
               </CardTitle>
             </CardHeader>

@@ -34,7 +34,7 @@ values are masked by default; revealing one is an intentional act.
 - Semantic-first color (danger / success / warning / info / neutral)
 - Scope-aware (org / sub-org / project / admin)
 - Border-defined depth; overlapping labels retain the shared Badge styling
-- Inter for product UI, Alliance for display typography, and distinct
+- Alliance No. 2 for product UI and display typography; JetBrains Mono for
   functional and decorative monospace roles
 - Secrets masked by default; reveal is an act
 
@@ -107,22 +107,14 @@ never as solid fills. The two canonical recipes:
 
 ## 3. Typography
 
-Typography uses several intentional families. Do not collapse them into one
-font or substitute one role for another:
+Typography uses two intentional families:
 
-- **Inter** (`font-inter`, `--font-inter`) is the default product and control
-  face. Body copy, forms, tables, buttons, labels, navigation, and dense product
-  surfaces inherit Inter unless a documented role below applies.
-- **Alliance No. 2** (`font-alliance`, `--font-alliance`) is the display face.
-  Use it selectively for prominent authentication, onboarding, and
-  brand-forward headings or supporting display copy—not routine product chrome.
-- **The existing application mono** (`font-mono`) is functional. Preserve it
-  for code, secret values, identifiers, timestamps, logs, and other content
-  whose character shapes and alignment carry meaning.
-- **JetBrains Mono** (`font-jetbrains-mono`, `--font-jetbrains-mono`) is a
-  decorative mono. Use it for short eyebrow labels, technical decals, and
-  brand-forward microcopy. It does not replace `font-mono` and should not be
-  used for code editors, data tables, IDs, logs, or secret values.
+- **Alliance No. 2** (`font-sans`, `--font-sans`) is the default product and
+  display face. Body copy, forms, tables, buttons, labels, navigation, and
+  headings inherit it.
+- **JetBrains Mono** (`font-mono`, `--font-mono`) is the functional and
+  decorative mono. Use it for code, secret values, identifiers, timestamps,
+  logs, and short technical microcopy.
 
 | Role                    | Class                                                                     | Notes                                                              |
 | ----------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------ |
@@ -318,9 +310,8 @@ legible across the control edge.
   The documented brand-forward `text-highlight` treatment and deliberately
   branded `ButtonBadge` flags are narrow exceptions for authentication and
   onboarding surfaces.
-- **DON'T** mix font families arbitrarily. Choose the documented role: Inter
-  for product UI, Alliance for display type, `font-mono` for functional
-  monospaced content, and JetBrains Mono for decorative technical microcopy.
+- **DON'T** mix font families arbitrarily. Use Alliance for product and display
+  text and JetBrains Mono (`font-mono`) for monospaced content.
 - **DON'T** animate for decoration. Motion should clarify state change only.
 
 ## 8. Voice & Content Tone

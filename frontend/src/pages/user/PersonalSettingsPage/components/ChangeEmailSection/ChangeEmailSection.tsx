@@ -191,7 +191,7 @@ export const ChangeEmailSection = () => {
       <form onSubmit={emailForm.handleSubmit(handleEmailSubmit)}>
         <Card className="gap-0 overflow-hidden p-0">
           <CardHeader className="p-6">
-            <CardTitle className="font-alliance">Change Email</CardTitle>
+            <CardTitle className="font-sans">Change Email</CardTitle>
             <CardDescription>
               Verify both your current and new email addresses. A successful change signs you out.
             </CardDescription>

@@ -166,7 +166,7 @@ export const DeleteProjectSection = () => {
     <>
       <Card className="mb-6 gap-0 overflow-hidden p-0">
         <CardHeader className="p-6">
-          <CardTitle className="font-alliance">Delete Protection</CardTitle>
+          <CardTitle className="font-sans">Delete Protection</CardTitle>
           <CardDescription>Prevent this project from being accidentally deleted.</CardDescription>
           <CardAction className="@xs:self-center">
             <ProjectPermissionCan
@@ -197,7 +197,7 @@ export const DeleteProjectSection = () => {
 
       <Card className="mb-6 gap-0 overflow-hidden p-0">
         <CardHeader className="p-6">
-          <CardTitle className="font-alliance">Leave Project</CardTitle>
+          <CardTitle className="font-sans">Leave Project</CardTitle>
           <CardDescription>Remove your access to this project and its contents.</CardDescription>
         </CardHeader>
         <CardFooter className="min-h-8 justify-end border-t border-neutral/15 bg-neutral/5 p-4">
@@ -219,7 +219,7 @@ export const DeleteProjectSection = () => {
 
       <Card className="mb-6 gap-0 overflow-hidden border-danger/25 p-0">
         <CardHeader className="p-6">
-          <CardTitle className="font-alliance">Danger Zone</CardTitle>
+          <CardTitle className="font-sans">Danger Zone</CardTitle>
           <CardDescription>Permanently delete this project and all of its data.</CardDescription>
         </CardHeader>
         <CardFooter className="min-h-8 justify-end border-t border-danger/15 bg-danger/5 p-4">

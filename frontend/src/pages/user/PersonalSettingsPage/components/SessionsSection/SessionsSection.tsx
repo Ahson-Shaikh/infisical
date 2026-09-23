@@ -39,7 +39,7 @@ export const SessionsSection = () => {
     <>
       <Card className="gap-0 overflow-hidden p-0">
         <CardHeader className="p-6">
-          <CardTitle className="font-alliance">Sessions</CardTitle>
+          <CardTitle className="font-sans">Sessions</CardTitle>
           <CardDescription>
             Review browser and CLI sessions with access to your account.
           </CardDescription>

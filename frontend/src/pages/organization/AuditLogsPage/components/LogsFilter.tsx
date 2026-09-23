@@ -133,7 +133,7 @@ export const LogsFilter = ({ presets, setFilter, filter, project }: Props) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="overflow-x-visible overflow-y-visible py-2">
         <form onSubmit={handleSubmit(setFilter)}>
-          <div className="flex max-w-96 min-w-96 flex-col font-inter">
+          <div className="flex max-w-96 min-w-96 flex-col font-sans">
             <div className="mb-3 flex items-center border-b border-b-border px-3 pb-2">
               <div className="flex w-full items-center justify-between">
                 <div className="flex items-center gap-2">

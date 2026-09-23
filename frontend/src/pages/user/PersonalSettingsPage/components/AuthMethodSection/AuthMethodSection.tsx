@@ -101,7 +101,7 @@ export const AuthMethodSection = () => {
   return (
     <Card className="gap-0 overflow-hidden p-0">
       <CardHeader className="p-6">
-        <CardTitle className="font-alliance">Authentication Methods</CardTitle>
+        <CardTitle className="font-sans">Authentication Methods</CardTitle>
         <CardDescription>
           Choose which providers can sign in to your Infisical account using the same email address.
         </CardDescription>

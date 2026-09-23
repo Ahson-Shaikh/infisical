@@ -114,10 +114,10 @@ export const SignUpPage = () => {
       </Helmet>
       <AuthPagePanel>
         <CardHeader className="mb-6 gap-2">
-          <CardTitle className="font-alliance text-2xl font-normal">
+          <CardTitle className="font-sans text-2xl font-normal">
             {stepContent[activeStep].title}
           </CardTitle>
-          <CardDescription className="font-alliance text-base">
+          <CardDescription className="font-sans text-base">
             {stepContent[activeStep].description}
           </CardDescription>
         </CardHeader>

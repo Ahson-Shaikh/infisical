@@ -78,7 +78,7 @@ const GeneralSettingsCard = ({
 }: GeneralSettingsCardProps) => (
   <Card className="gap-0 overflow-hidden p-0">
     <CardHeader className="p-6">
-      <CardTitle className="font-alliance">{title}</CardTitle>
+      <CardTitle className="font-sans">{title}</CardTitle>
       <CardDescription>{description}</CardDescription>
     </CardHeader>
     {children && <CardContent className="px-6 pb-6">{children}</CardContent>}

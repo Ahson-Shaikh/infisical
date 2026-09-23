@@ -133,7 +133,7 @@ export const MFASection = () => {
         <CardHeader>
           <h2
             id="two-factor-authentication-title"
-            className="font-alliance text-lg leading-none font-semibold"
+            className="font-sans text-lg leading-none font-semibold"
           >
             Two-Factor Authentication
           </h2>
@@ -179,7 +179,7 @@ export const MFASection = () => {
     <CardHeader className="p-6">
       <h2
         id="two-factor-authentication-title"
-        className="flex flex-wrap items-center gap-1.5 font-alliance text-lg leading-none font-semibold"
+        className="flex flex-wrap items-center gap-1.5 font-sans text-lg leading-none font-semibold"
       >
         Two-Factor Authentication
         {user.isMfaEnabled ? (
@@ -204,10 +204,7 @@ export const MFASection = () => {
     <section className="grid gap-4" aria-labelledby="preferred-2fa-method-title">
       <CardHeader>
         <div className="flex items-center gap-4">
-          <h3
-            id="preferred-2fa-method-title"
-            className="shrink-0 font-alliance text-sm font-semibold"
-          >
+          <h3 id="preferred-2fa-method-title" className="shrink-0 font-sans text-sm font-semibold">
             Preferred 2FA method
           </h3>
           <Separator className="flex-1" />
